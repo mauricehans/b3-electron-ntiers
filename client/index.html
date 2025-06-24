@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Electron Calculator</title>
+</head>
+<body>
+  <h1>Simple Calculator</h1>
+  <input id="a" type="number" placeholder="a">
+  <input id="b" type="number" placeholder="b"><br><br>
+  <button onclick="operate('add')">Add</button>
+  <button onclick="operate('subtract')">Subtract</button>
+  <button onclick="operate('multiply')">Multiply</button>
+  <button onclick="operate('divide')">Divide</button>
+  <h2 id="result"></h2>
+
+  <script>
+    async function operate(op) {
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const res = await window.api.request(op, a, b);
+      document.getElementById('result').innerText = JSON.stringify(res);
+    }
+  </script>
+</body>
+</html>
