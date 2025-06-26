@@ -1,0 +1,102 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+business/node_modules/
+router/node_modules/
+
+# npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Build directories
+dist/
+out/
+build/
+.webpack/
+renderer-build/
+
+# Electron build files
+*.tsbuildinfo
+*.exe
+*.dmg
+*.deb
+*.rpm
+*.tar.gz
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+*.pid
+*.log
+
+# Database
+*.sqlite
+*.db
+data/
+volumes/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+nyc_output/
+.nyc_output/
+
+# Temporary folders
+tmp/
+temp/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+
+# Electron build artifacts
+/dist_electron/
+/release/

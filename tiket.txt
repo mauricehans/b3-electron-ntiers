@@ -1,0 +1,126 @@
+Phase 1 : Amélioration de la calculatrice de base
+Ticket 1.1 : Gestion des parenthèses et priorité des opérations
+Implémenter l'analyse des parenthèses dans les expressions
+
+Gérer la priorité des opérations (*, / avant +, -)
+
+Supporter les parenthèses imbriquées
+
+Valider l'équilibrage des parenthèses (même nombre d'ouvertures et fermetures)
+
+Ticket 1.2 : Parser d'expressions arithmétiques simples
+Créer un tokenizer pour décomposer "2 + (3 * 4)" en tokens
+
+Développer un parser récursif pour gérer l'ordre des opérations
+
+Supporter les espaces dans les expressions
+
+Gérer les nombres décimaux et négatifs
+
+Ticket 1.3 : Interface pour saisie d'expressions
+Remplacer les deux champs séparés par un champ unique d'expression
+
+Permettre la saisie de "2 + (3 * 4)" au lieu de seulement "a op b"
+
+Ajouter la validation en temps réel de la syntaxe
+
+Afficher des messages d'erreur clairs pour les expressions invalides
+
+Ticket 1.4 : Extension des opérations de base
+Ajouter la puissance (^) avec gestion de priorité
+
+Implémenter le modulo (%)
+
+Ajouter la racine carrée comme première fonction simple
+
+Gérer les erreurs mathématiques (division par zéro, racine de nombre négatif)
+
+Phase 2 : Amélioration de l'interface et de l'expérience
+Ticket 2.1 : Interface calculatrice améliorée
+Ajouter des boutons pour les parenthèses
+
+Implémenter l'historique des calculs
+
+Ajouter un bouton "Clear" et "Delete"
+
+Permettre l'utilisation du clavier
+
+Ticket 2.2 : Gestion des erreurs robuste
+Améliorer les messages d'erreur pour les expressions mal formées
+
+Gérer les cas limites (expressions vides, caractères invalides)
+
+Ajouter des suggestions de correction
+
+Implémenter la validation côté client et serveur
+
+Ticket 2.3 : Base de données étendue
+Stocker les expressions complètes au lieu de a, b, op séparés
+
+Ajouter un champ pour le type d'erreur si applicable
+
+Créer un historique persistant des calculs
+
+Optimiser les requêtes pour l'historique
+
+Phase 3 : Fonctions mathématiques de base
+Ticket 3.1 : Constantes mathématiques
+Ajouter les constantes π (pi) et e
+
+Implémenter la gestion des constantes dans le parser
+
+Permettre l'utilisation dans les expressions ("2 * pi * r")
+
+Ticket 3.2 : Fonctions mathématiques simples
+Ajouter abs(), ceil(), floor(), round()
+
+Implémenter sqrt(), cbrt() (racine cubique)
+
+Gérer la syntaxe des fonctions : "sqrt(25)" ou "abs(-5)"
+
+Valider les arguments des fonctions
+
+Ticket 3.3 : Tests et validation
+Créer une suite de tests pour toutes les expressions
+
+Tester les cas limites et les erreurs
+
+Valider la précision des calculs
+
+Tests de performance sur des expressions complexes
+
+Phase 4 : Fonctions trigonométriques (plus tard)
+Seulement après avoir maîtrisé les phases précédentes :
+
+sin, cos, tan
+
+Gestion des degrés vs radians
+
+Fonctions inverses (asin, acos, atan)
+
+Exemples d'expressions à supporter progressivement :
+Après Ticket 1.1-1.3 :
+
+2 + 3 * 4
+
+(2 + 3) * 4
+
+10 / (2 + 3)
+
+2 * (3 + 4 * (5 - 1))
+
+Après Ticket 1.4 :
+
+2^3 + 4
+
+sqrt(16) + 2
+
+10 % 3
+
+Après Phase 3 :
+
+2 * pi * 5
+
+abs(-10) + sqrt(25)
+
+round(3.7) + floor(2.9)

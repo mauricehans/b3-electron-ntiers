@@ -1,4 +1,4 @@
-version: "3.8"
+
 
 services:
   router:
@@ -14,7 +14,7 @@ services:
       - PGHOST=db
       - PGUSER=postgres
       - PGPASSWORD=mysecretpassword
-      - PGDATABASE=calcdb
+      - PGDATABASE=tododb
     depends_on:
       db:
         condition: service_healthy
@@ -23,7 +23,7 @@ services:
     image: postgres:15
     environment:
       POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: calcdb
+      POSTGRES_DB: tododb
     ports:
       - "5432:5432"
     healthcheck:

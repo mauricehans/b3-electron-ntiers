@@ -9,34 +9,56 @@ app.use(bodyParser.json());
 
 const BUSINESS_URL = process.env.BUSINESS_URL || 'http://business:5000';
 
-// Proxy pour addition
-app.post('/add', async (req, res) => {
-  const { a, b } = req.body;
-  const result = await axios.post(`${BUSINESS_URL}/add`, { a, b });
-  res.json(result.data);
+// Obtenir toutes les tâches
+app.get('/api/tasks', async (req, res) => {
+  try {
+    const result = await axios.get(`${BUSINESS_URL}/tasks`);
+    res.json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// Proxy pour soustraction
-app.post('/subtract', async (req, res) => {
-  const { a, b } = req.body;
-  const result = await axios.post(`${BUSINESS_URL}/subtract`, { a, b });
-  res.json(result.data);
+// Créer une nouvelle tâche
+app.post('/api/tasks', async (req, res) => {
+  try {
+    const result = await axios.post(`${BUSINESS_URL}/tasks`, req.body);
+    res.json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// Proxy pour multiplication
-app.post('/multiply', async (req, res) => {
-  const { a, b } = req.body;
-  const result = await axios.post(`${BUSINESS_URL}/multiply`, { a, b });
-  res.json(result.data);
+// Mettre à jour une tâche
+app.put('/api/tasks/:id', async (req, res) => {
+  try {
+    const result = await axios.put(`${BUSINESS_URL}/tasks/${req.params.id}`, req.body);
+    res.json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// Proxy pour division
-app.post('/divide', async (req, res) => {
-  const { a, b } = req.body;
-  const result = await axios.post(`${BUSINESS_URL}/divide`, { a, b });
-  res.json(result.data);
+// Basculer le statut d'une tâche
+app.patch('/api/tasks/:id/toggle', async (req, res) => {
+  try {
+    const result = await axios.patch(`${BUSINESS_URL}/tasks/${req.params.id}/toggle`);
+    res.json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Supprimer une tâche
+app.delete('/api/tasks/:id', async (req, res) => {
+  try {
+    const result = await axios.delete(`${BUSINESS_URL}/tasks/${req.params.id}`);
+    res.json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.listen(3000, () => {
-  console.log('Router listening on port 3000');
+  console.log('Todo Router listening on port 3000');
 });
