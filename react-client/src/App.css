@@ -1,0 +1,122 @@
+.App {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.task-form {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-form h3 {
+  margin-top: 0;
+  color: #555;
+}
+
+.task-form input[type="text"],
+.task-form select {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  box-sizing: border-box;
+  margin-bottom: 10px; /* Add some space below inputs */
+}
+
+.task-form button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.task-form button:hover {
+  background-color: #0056b3;
+}
+
+.tasks-container {
+  margin-top: 20px;
+}
+
+.task-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.task-item:hover {
+  transform: translateY(-2px);
+}
+
+.task-item.completed {
+  opacity: 0.7;
+  text-decoration: line-through;
+  background-color: #f0f0f0;
+}
+
+.task-info strong {
+  color: #333;
+}
+
+.task-info small {
+  color: #666;
+}
+
+.task-actions button {
+  padding: 8px 12px;
+  margin-left: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.task-actions button:first-child {
+  background-color: #28a745; /* Complete/Restore button */
+  color: white;
+}
+
+.task-actions button:first-child:hover {
+  background-color: #218838;
+}
+
+.task-actions button[style*="background-color: rgb(244, 67, 54)"] { /* Delete button */
+  background-color: #dc3545 !important;
+  color: white;
+}
+
+.task-actions button[style*="background-color: rgb(244, 67, 54)"]:hover {
+  background-color: #c82333 !important;
+}
+
+/* Priority colors */
+.priority-high {
+  border-left: 5px solid #dc3545; /* Red */
+}
+
+.priority-medium {
+  border-left: 5px solid #ffc107; /* Yellow/Orange */
+}
+
+.priority-low {
+  border-left: 5px solid #28a745; /* Green */
+}
