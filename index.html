@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Todo List App</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .task-form { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+    .task-item { 
+      border: 1px solid #ddd; 
+      padding: 10px; 
+      margin: 5px 0; 
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .task-item.completed { opacity: 0.6; text-decoration: line-through; }
+    .task-info { flex-grow: 1; }
+    .task-actions button { margin-left: 5px; }
+    .priority-high { border-left: 4px solid #ff4444; }
+    .priority-medium { border-left: 4px solid #ffaa44; }
+    .priority-low { border-left: 4px solid #44aa44; }
+  </style>
+</head>
+<body>
+  <h1>Todo List</h1>
+  
+  <div class="task-form">
+    <h3>Ajouter une nouvelle tâche</h3>
+    <input id="title" type="text" placeholder="Titre de la tâche" required>
+    <input id="description" type="text" placeholder="Description (optionnel)">
+    <select id="priority">
+      <option value="low">Basse</option>
+      <option value="medium" selected>Moyenne</option>
+      <option value="high">Haute</option>
+    </select>
+    <button onclick="addTask()">Ajouter</button>
+  </div>
+
+  <div id="tasks-container">
+    <!-- Les tâches seront affichées ici -->
+  </div>
+
+  <script>
+    let tasks = [];
+
+    async function loadTasks() {
+      try {
+        const result = await window.api.getTasks();
+        tasks = result.tasks || [];
+        renderTasks();
+      } catch (error) {
+        console.error('Error loading tasks:', error);
+      }
+    }
+
+    async function addTask() {
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const priority = document.getElementById('priority').value;
+
+      if (!title) {
+        alert('Le titre est requis');
+        return;
+      }
+
+      try {
+        await window.api.createTask({ title, description, priority });
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('priority').value = 'medium';
+        await loadTasks();
+      } catch (error) {
+        console.error('Error adding task:', error);
+      }
+    }
+
+    async function toggleTask(id) {
+      try {
+        await window.api.toggleTask(id);
+        await loadTasks();
+      } catch (error) {
+        console.error('Error toggling task:', error);
+      }
+    }
+
+    async function deleteTask(id) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
+        try {
+          await window.api.deleteTask(id);
+          await loadTasks();
+        } catch (error) {
+          console.error('Error deleting task:', error);
+        }
+      }
+    }
+
+    function renderTasks() {
+      const container = document.getElementById('tasks-container');
+      container.innerHTML = '';
+
+      if (tasks.length === 0) {
+        container.innerHTML = '<p>Aucune tâche pour le moment.</p>';
+        return;
+      }
+
+      tasks.forEach(task => {
+        const taskElement = document.createElement('div');
+        taskElement.className = `task-item priority-${task.priority} ${task.completed ? 'completed' : ''}`;
+        
+        taskElement.innerHTML = `
+          <div class="task-info">
+            <strong>${task.title}</strong>
+            ${task.description ? `<br><small>${task.description}</small>` : ''}
+            <br><small>Priorité: ${task.priority} | Créé: ${new Date(task.created_at).toLocaleDateString()}</small>
+          </div>
+          <div class="task-actions">
+            <button onclick="toggleTask(${task.id})">${task.completed ? 'Restaurer' : 'Terminer'}</button>
+            <button onclick="deleteTask(${task.id})" style="background: #ff4444; color: white;">Supprimer</button>
+          </div>
+        `;
+        
+        container.appendChild(taskElement);
+      });
+    }
+
+    // Charger les tâches au démarrage
+    window.addEventListener('DOMContentLoaded', loadTasks);
+  </script>
+</body>
+</html>

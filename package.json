@@ -1,0 +1,17 @@
+{
+  "name": "TO-DO-LIST",
+  "version": "1.0.0",
+  "description": "Une brève description de votre application",
+  "author": "Maurice, Ange, Kieron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "build": {
+    "appId": "com.votreapp.id"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12"
+  }
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Web Client</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .task-form { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .task-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-item.completed { opacity: 0.6; text-decoration: line-through; }
+        .task-info { flex-grow: 1; }
+        .task-actions button { margin-left: 5px; }
+        .priority-high { border-left: 4px solid #ff4444; }
+        .priority-medium { border-left: 4px solid #ffaa44; }
+        .priority-low { border-left: 4px solid #44aa44; }
+
+        /* Styles pour les inputs et boutons */
+        input[type="text"], select {
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box; /* Pour inclure le padding et la bordure dans la largeur */
+        }
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button[style*="background-color: #f44336"] { /* Style spécifique pour le bouton supprimer */
+            background-color: #f44336 !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo List</h1>
+
+    <div class="task-form">
+        <h3>Ajouter une nouvelle tâche</h3>
+        <input type="text" id="newTaskTitle" placeholder="Titre de la tâche" required>
+        <input type="text" id="newTaskDescription" placeholder="Description (optionnel)">
+        <select id="newTaskPriority">
+            <option value="low">Basse</option>
+            <option value="medium" selected>Moyenne</option>
+            <option value="high">Haute</option>
+        </select>
+        <button onclick="addTask()">Ajouter</button>
+    </div>
+
+    <div id="tasksContainer">
+        <!-- Les tâches seront affichées ici -->
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api/tasks';
+
+        async function fetchTasks() {
+            try {
+                const response = await fetch(API_BASE_URL);
+                const data = await response.json();
+                renderTasks(data.tasks);
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+                document.getElementById('tasksContainer').innerHTML = '<p style="color: red;">Erreur de chargement des tâches. Le backend est-il en cours d\'exécution ?</p>';
+            }
+        }
+
+        function renderTasks(tasks) {
+            const container = document.getElementById('tasksContainer');
+            container.innerHTML = '';
+            if (!tasks || tasks.length === 0) {
+                container.innerHTML = '<p>Aucune tâche pour le moment.</p>';
+                return;
+            }
+            tasks.forEach(task => {
+                const taskElement = document.createElement('div');
+                taskElement.className = `task-item priority-${task.priority} ${task.completed ? 'completed' : ''}`;
+                taskElement.innerHTML = `
+                    <div class="task-info">
+                        <strong>${task.title}</strong>
+                        ${task.description ? `<br><small>${task.description}</small>` : ''}
+                        <br><small>Priorité: ${task.priority} | Créé: ${new Date(task.created_at).toLocaleDateString()}</small>
+                    </div>
+                    <div class="task-actions">
+                        <button onclick="toggleTask(${task.id})">${task.completed ? 'Restaurer' : 'Terminer'}</button>
+                        <button onclick="deleteTask(${task.id})" style="background-color: #f44336; color: white;">Supprimer</button>
+                    </div>
+                `;
+                container.appendChild(taskElement);
+            });
+        }
+
+        async function addTask() {
+            const title = document.getElementById('newTaskTitle').value.trim();
+            const description = document.getElementById('newTaskDescription').value.trim();
+            const priority = document.getElementById('newTaskPriority').value;
+
+            if (!title) {
+                alert('Le titre de la tâche ne peut pas être vide.');
+                return;
+            }
+
+            try {
+                await fetch(API_BASE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, description, priority })
+                });
+                document.getElementById('newTaskTitle').value = '';
+                document.getElementById('newTaskDescription').value = '';
+                document.getElementById('newTaskPriority').value = 'medium';
+                fetchTasks();
+            } catch (error) {
+                console.error('Error adding task:', error);
+            }
+        }
+
+        async function toggleTask(id) {
+            try {
+                await fetch(`${API_BASE_URL}/${id}/toggle`, {
+                    method: 'PATCH'
+                });
+                fetchTasks();
+            } catch (error) {
+                console.error('Error toggling task:', error);
+            }
+        }
+
+        async function deleteTask(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
+                try {
+                    await fetch(`${API_BASE_URL}/${id}`, {
+                        method: 'DELETE'
+                    });
+                    fetchTasks();
+                } catch (error) {
+                    console.error('Error deleting task:', error);
+                }
+            }
+        }
+
+        // Initial fetch when the page loads
+        document.addEventListener('DOMContentLoaded', fetchTasks);
+    </script>
+</body>
+</html>
